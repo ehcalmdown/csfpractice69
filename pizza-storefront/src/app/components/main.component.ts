@@ -52,10 +52,9 @@ export class MainComponent implements OnInit {
     // navigate to the view 1
     this.router.navigate(['/orders', email])
     // calls pizza service, pass in the email as parameterized value, to make http get request to springboot
-    this.pizzaSvc.getOrder(email)
+    // this.pizzaSvc.getOrders(email)
   }
 
-  //get the checkbox done dealio
   onCheckboxChange(e: any) {
     const toppings: FormArray = this.orderForm.get('toppings') as FormArray;
     if (e.target.checked) {
@@ -72,15 +71,8 @@ export class MainComponent implements OnInit {
     }
   }
 
-// The 'Place Order' button should be disabled and only enabled when all
-// the mandatory fields are filled.
-// If the pizza order is created successfully, transition to View 1 to list the
-// new order and other previous orders. Use the email from the order you
-// have just created for routing; for example, if you have just placed an
-// order with fred@gmail.com, then you should transition to View 1 with
-// fred@gmail.com.
+
   // helper functions
-  //task 2 mandatory fields
   private createForm() {
     return this.fb.group({
       name: this.fb.control<string>('', Validators.required),

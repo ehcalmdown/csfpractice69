@@ -1,40 +1,19 @@
 // Implement the methods in PizzaService for Task 3
 // Add appropriate parameter and return type 
+
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, firstValueFrom } from "rxjs";
-import { Order } from "./models";
+import { firstValueFrom } from "rxjs";
+import { Order, OrderSummary } from "./models";
 
-
-@Injectable({
-  providedIn: 'root'
-})
-
+@Injectable()
 export class PizzaService {
-
-  private apiServiceUrl='';
 
   constructor(private http: HttpClient) { }
 
-  // GET /api/order/<email>/all
+  // POST /api/order
   // Add any required parameters or return type
-  // public getOrders(/* add any required parameters */): Observable<any>{
-  //   return this.http.get<any>(`${this.apiServiceUrl}/orders/<email>/all`)
-  // }
 
-  // // POST /api/order
-  // // Add any required parameters or return type
-  // public createOrder(/* add any required parameters */ orders: Orders): Observable<Orders> { 
-  //   return this.http.post<Orders>(`${this.apiServiceUrl}/orders/<email>/create`, orders);
-  // }
-
-  // public updateOrder(orders: Orders): Observable<Orders>{
-  //   return this.http.put<Orders>(`${this.apiServiceUrl}/orders/<email>/create`, orders);
-  // }
-
-  // public deleteOrder(orders: Order): Observable<Order>{
-  //   return this.http.delete<void>(`${this.apiServiceUrl}/orders/delete/${email}`);
-  //}
   createOrder(order: Order): Promise<Order>{ 
     // creates a new order when order button is pressed, main.component will call service
     // post order to springboot, returns a promise
@@ -64,9 +43,10 @@ export class PizzaService {
 
   // GET /api/order/<email>/all
   // Add any required parameters or return type
-  getOrder(email: string): Promise<Order[]> { 
-    return firstValueFrom<Order[]>(
-      this.http.get<any>(`/api/order/${email}/all`)
+
+  getOrders(email: string): Promise<OrderSummary[]> { 
+    return firstValueFrom<OrderSummary[]>(
+      this.http.get<OrderSummary[]>(`/api/order/${email}/all`)
     )
     
   }

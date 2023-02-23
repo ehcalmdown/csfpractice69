@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Order } from '../models';
+import { Order, OrderSummary } from '../models';
+import { PizzaService } from '../pizza.service';
 
 @Component({
   selector: 'app-orders',
@@ -12,10 +13,9 @@ export class OrdersComponent implements OnInit {
 
   email = ''
   params$!: Subscription
-  order!: Order
-  orders: Order[] = []
+  orderSummaries: OrderSummary[] = []
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute, private pizzaSvc: PizzaService) { }
 
   ngOnInit(): void {
     // retrieve the route parameter, email, from the url
@@ -24,9 +24,19 @@ export class OrdersComponent implements OnInit {
       (params) => {
         this.email = params['email']
         console.info('>>> OrderComponent: email: ', this.email)
-      }
+      } 
     )
 
+    // when this page initialise, make http request to get list of order
+    this.pizzaSvc.getOrders(this.email)
+      .then(result => {
+        console.info(">>> OrderComponent: in then, result: ", result)
+        this.orderSummaries = result;
+      })
+      .catch(error => {
+        console.info(">>> OrderComponent: in error")
+        console.info(">>> OrderComponent: error: ", error)
+      })
     
   }
 

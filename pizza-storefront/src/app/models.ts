@@ -9,3 +9,10 @@ export interface Order {
     toppings: string[]
     comments: string
 }
+
+export interface OrderSummary {
+    orderId: string
+    name: string
+    email: string
+    amount: number
+}
