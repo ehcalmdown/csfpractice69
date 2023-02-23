@@ -1,6 +1,7 @@
 package vttp2022.assessment.csf.orderbackend.controllers;
 
-
+import java.util.LinkedList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
 import vttp2022.assessment.csf.orderbackend.models.Order;
+import vttp2022.assessment.csf.orderbackend.models.OrderSummary;
 import vttp2022.assessment.csf.orderbackend.services.OrderService;
 
 @RestController
@@ -50,10 +55,20 @@ public class OrderRestController {
 
         // *** need to use the opt get and return whether there is a result
         // call the service and pass in the email
-        this.orderSvc.getOrdersByEmail(email);
+        // returns a list of order summary
+        List<OrderSummary> orderSummaries = new LinkedList<>();
+        orderSummaries = this.orderSvc.getOrdersByEmail(email);
 
-
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        // convert list of order summary into a json array to pass back to frontend
+        JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+        orderSummaries.stream()
+            .forEach(o -> {
+                arrBuilder.add(o.toJson());
+            });
+        
+        JsonArray jsonArrayOrderSummaries = arrBuilder.build();
+            
+        return ResponseEntity.ok(jsonArrayOrderSummaries.toString());
     }
 
 }

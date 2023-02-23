@@ -1,0 +1,56 @@
+CREATE USER 'rsvp'@'localhost' IDENTIFIED BY 'Password@123456';
+GRANT ALL PRIVILEGES ON . TO 'rsvp'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+railway
+create empty project
+create database
+create workbench
+connection name can be anything
+hostname, username, portnumber, password from railway
+store password in vault for easier testing
+
+once inside, instantiate the schema and create the database
+use "database name"
+
+go to connect tab
+copy mysql connection url
+paste into application.properties
+
+railway login
+railway up
+mysql -u root -p -h containers-us-west-53.railway.app --port=6099
+
+
+DEPLOYING TO RAILWAY 
+
+1.   Create New project - empty project
+2.   Press new - Create new service - empty service 
+3.   Press new - Database - Add Mysql 
+4.   Open MySql - Connect tab - copy the -h portion - containers-us-west-92.railway.app
+5.   Change url in app.properties file in vs code - Jdbc : mysql : // local host :3306 (this portion) 
+6.   Spring username (VS Code) - same as name in sql (app) database user 
+7.   In the railway app - go to mysql - under variables tab - copy mysqlpassword 
+8.   Paste into the railway app service (empty one created) - under variables - create new variable 
+9.   Label it as SPRING_DATASOURCE_PASSWORD 
+10.   Paste the password copied into the value portion 
+11.   Open MySql (app) - make root connection using url 
+12.   Connection name - anything 
+13.   Hostname (portion copied from -h - from Step 4) 
+14.   Port - copy from the long line in connect tab - in railway (same place as step 4) 
+15.   Username root 
+16.   Password - value of mysql password - from step 10 (SAME PW) 
+17.   Click test connection 
+18.   Then save it 
+19.   Then give admin proviledges to any account (from railway root acct  created in step 18) - Fred! 
+20.   Click schema priviledhes - add entry - supposed to only be railway access, but I give all access- 
+21.   Select all at the bottom right hand - apply and save
+
+
+
+
+VERCEL
+go to front end 
+type vercel
+press enter
+set up and deploy
